@@ -56,23 +56,24 @@ function AnimatedNumber({ target, suffix }: { target: number; suffix: string }) 
 
 export function StatsCounter() {
   return (
-    <MotionSection className="relative py-20 mesh-gradient-cool overflow-hidden">
+    <MotionSection className="relative py-24 overflow-hidden dot-grid">
       <Container className="relative z-10">
-        <div className="glass rounded-3xl p-10 md:p-14">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            {stats.map((stat) => (
-              <MotionDiv
-                key={stat.label}
-                variants={fadeUp}
-                className="text-center"
-              >
-                <div className="text-4xl font-bold text-foreground sm:text-5xl">
-                  <AnimatedNumber target={stat.value} suffix={stat.suffix} />
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
-              </MotionDiv>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          {stats.map((stat, i) => (
+            <MotionDiv
+              key={stat.label}
+              variants={fadeUp}
+              className="relative text-center"
+            >
+              {i > 0 && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 h-12 w-px bg-border hidden md:block" />
+              )}
+              <div className="text-4xl font-mono font-bold text-foreground sm:text-5xl tracking-tight">
+                <AnimatedNumber target={stat.value} suffix={stat.suffix} />
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{stat.label}</p>
+            </MotionDiv>
+          ))}
         </div>
       </Container>
     </MotionSection>

@@ -11,58 +11,60 @@ const projects = [
   {
     title: "FinTech Dashboard",
     category: "Web Application",
-    gradient: "from-gray-100 via-gray-50 to-stone-100",
+    accent: "from-violet-500/60 to-fuchsia-500/60",
   },
   {
     title: "E-Commerce Platform",
     category: "Full-Stack Development",
-    gradient: "from-stone-100 via-gray-50 to-zinc-100",
+    accent: "from-emerald-500/60 to-teal-500/60",
   },
   {
     title: "Healthcare Portal",
     category: "UI/UX Design",
-    gradient: "from-zinc-100 via-gray-50 to-neutral-100",
+    accent: "from-sky-500/60 to-blue-500/60",
   },
   {
     title: "AI Analytics Tool",
     category: "Machine Learning",
-    gradient: "from-neutral-100 via-stone-50 to-gray-100",
+    accent: "from-amber-500/60 to-orange-500/60",
   },
 ];
 
 export function PortfolioPreview() {
   return (
-    <MotionSection className="py-24">
+    <MotionSection className="py-32 border-t border-border">
       <Container>
-        <MotionDiv variants={fadeUp} className="text-center mb-14">
-          <span className="text-sm font-medium tracking-wide uppercase text-muted-foreground">
-            Our Work
+        <MotionDiv variants={fadeUp} className="mb-16">
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            03 — Portfolio
           </span>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             Recent projects
           </h2>
-          <p className="mt-4 mx-auto max-w-2xl text-muted-foreground">
+          <p className="mt-4 max-w-2xl text-muted-foreground">
             A selection of projects where we&apos;ve helped businesses transform
             their digital presence.
           </p>
         </MotionDiv>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {projects.map((project) => (
             <MotionDiv key={project.title} variants={fadeUp}>
               <Link href="/portfolio" className="group block">
-                <div
-                  className={`relative aspect-[16/10] rounded-2xl bg-gradient-to-br ${project.gradient} overflow-hidden border border-border transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1`}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="glass rounded-xl px-8 py-6 text-center transition-all duration-300 group-hover:scale-105">
-                      <h3 className="text-lg font-semibold text-foreground">
-                        {project.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {project.category}
-                      </p>
-                    </div>
+                <div className="relative overflow-hidden rounded-xl border border-border bg-muted/50 p-8 transition-all duration-300 hover:bg-muted hover:border-white/12">
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/2 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+
+                  <div className={`h-px w-12 bg-linear-to-r ${project.accent} mb-8`} />
+
+                  <span className="text-xs font-mono text-muted-foreground tracking-wider uppercase">
+                    {project.category}
+                  </span>
+                  <h3 className="mt-2 text-xl font-semibold text-foreground group-hover:text-foreground/80 transition-colors">
+                    {project.title}
+                  </h3>
+
+                  <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    View Project <ArrowRight size={14} />
                   </div>
                 </div>
               </Link>
@@ -70,7 +72,7 @@ export function PortfolioPreview() {
           ))}
         </div>
 
-        <MotionDiv variants={fadeUp} className="mt-12 text-center">
+        <MotionDiv variants={fadeUp} className="mt-14">
           <Button variant="outline" asChild>
             <Link href="/portfolio">
               View All Work <ArrowRight size={16} />

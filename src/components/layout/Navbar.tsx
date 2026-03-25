@@ -36,9 +36,9 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
-          ? "glass-strong shadow-sm"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border"
           : "bg-transparent"
       )}
     >
@@ -46,8 +46,8 @@ export function Navbar() {
         className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <Link href="/" className="text-xl font-bold tracking-tight text-foreground">
-          PYON<span className="text-muted-foreground">.ai</span>
+        <Link href="/" className="text-lg font-bold tracking-tight text-foreground">
+          PYON<span className="text-muted-foreground font-normal">.ai</span>
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -57,13 +57,20 @@ export function Navbar() {
                 href={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                  "relative px-3 py-2 text-sm transition-colors",
                   pathname === link.href
-                    ? "bg-foreground/5 text-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-black/[0.03]"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {link.label}
+                {pathname === link.href && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className="absolute inset-x-0 -bottom-px h-px bg-foreground"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
               </Link>
             </li>
           ))}
@@ -79,7 +86,7 @@ export function Navbar() {
         </div>
 
         <button
-          className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-black/[0.04] md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground transition-colors md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -94,7 +101,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="glass-strong overflow-hidden border-t border-border md:hidden"
+            className="overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl md:hidden"
           >
             <ul className="flex flex-col gap-1 px-4 py-4">
               {links.map((link) => (
@@ -103,10 +110,10 @@ export function Navbar() {
                     href={link.href}
                     aria-current={pathname === link.href ? "page" : undefined}
                     className={cn(
-                      "block rounded-xl px-4 py-3 text-sm font-medium transition-colors",
+                      "block rounded-lg px-4 py-3 text-sm transition-colors",
                       pathname === link.href
-                        ? "bg-foreground/5 text-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-black/[0.03]"
+                        ? "text-foreground bg-white/4"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/4"
                     )}
                   >
                     {link.label}

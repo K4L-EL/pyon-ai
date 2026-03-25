@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -42,33 +42,35 @@ function formatDate(iso: string) {
 
 export function BlogPreview() {
   return (
-    <MotionSection className="py-24 mesh-gradient-warm">
+    <MotionSection className="py-32 dot-grid">
       <Container>
-        <MotionDiv variants={fadeUp} className="text-center mb-14">
-          <span className="text-sm font-medium tracking-wide uppercase text-muted-foreground">
-            From the Blog
+        <MotionDiv variants={fadeUp} className="mb-16">
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            04 — Blog
           </span>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             Latest insights
           </h2>
         </MotionDiv>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <MotionDiv key={post.slug} variants={fadeUp}>
               <Link href={`/blog/${post.slug}`} className="group block h-full">
                 <Card className="h-full flex flex-col">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                    <Calendar size={12} aria-hidden="true" />
-                    <time dateTime={post.date}>{formatDate(post.date)}</time>
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground group-hover:text-foreground/70 transition-colors">
+                  <time
+                    dateTime={post.date}
+                    className="text-xs font-mono text-muted-foreground tracking-wider"
+                  >
+                    {formatDate(post.date)}
+                  </time>
+                  <h3 className="mt-3 text-base font-semibold text-foreground group-hover:text-foreground/70 transition-colors">
                     {post.title}
                   </h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">
                     {post.excerpt}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground">
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                     Read more <ArrowRight size={14} />
                   </span>
                 </Card>
@@ -77,7 +79,7 @@ export function BlogPreview() {
           ))}
         </div>
 
-        <MotionDiv variants={fadeUp} className="mt-12 text-center">
+        <MotionDiv variants={fadeUp} className="mt-14">
           <Button variant="outline" asChild>
             <Link href="/blog">
               Read All Articles <ArrowRight size={16} />

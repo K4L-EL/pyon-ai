@@ -39,7 +39,7 @@ export function CookieConsent() {
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           role="dialog"
           aria-label="Cookie consent"
-          className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg glass-strong rounded-2xl p-5 sm:left-auto sm:right-6 sm:bottom-6"
+          className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg rounded-xl border border-border bg-muted/95 backdrop-blur-xl p-5 sm:left-auto sm:right-6 sm:bottom-6"
         >
           <div className="flex items-start gap-3">
             <div className="flex-1">

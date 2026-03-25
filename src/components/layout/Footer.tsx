@@ -30,12 +30,12 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-[#f8f8fa]" aria-label="Site footer">
+    <footer className="border-t border-border" aria-label="Site footer">
       <Container className="py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="text-xl font-bold tracking-tight text-foreground">
-              PYON<span className="text-muted-foreground">.ai</span>
+            <Link href="/" className="text-lg font-bold tracking-tight text-foreground">
+              PYON<span className="text-muted-foreground font-normal">.ai</span>
             </Link>
             <p className="max-w-xs text-sm text-muted-foreground leading-relaxed">
               Transformative software &amp; digital solutions that amplify your key
@@ -84,7 +84,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-black/[0.04] hover:text-foreground"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-white/4 hover:text-foreground"
               >
                 <s.icon size={16} />
               </a>

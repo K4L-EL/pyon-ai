@@ -6,23 +6,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg",
+          "bg-foreground text-background hover:bg-foreground/90",
         secondary:
-          "glass hover:bg-white/70 text-foreground",
+          "bg-muted text-foreground border border-border hover:bg-white/6",
         ghost:
-          "hover:bg-black/[0.04] text-foreground",
+          "text-muted-foreground hover:text-foreground hover:bg-white/4",
         outline:
-          "border border-border bg-transparent hover:bg-black/[0.02] text-foreground",
+          "border border-border text-foreground hover:bg-white/4",
       },
       size: {
         sm: "h-9 px-4 text-sm",
         md: "h-11 px-6 text-sm",
-        lg: "h-12 px-8 text-base",
+        lg: "h-12 px-8 text-sm",
         icon: "h-10 w-10",
       },
     },
