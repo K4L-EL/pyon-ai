@@ -11,49 +11,49 @@ const projects = [
     title: "FinTech Dashboard",
     category: "Web Apps",
     description: "A real-time analytics dashboard for a London-based fintech startup, handling 50k+ daily transactions.",
-    gradient: "from-gray-100 via-stone-50 to-gray-50",
+    accent: "from-violet-500/60 to-fuchsia-500/60",
   },
   {
     title: "E-Commerce Platform",
     category: "Web Apps",
     description: "Full-stack marketplace with payment integration, inventory management, and automated fulfilment.",
-    gradient: "from-stone-100 via-gray-50 to-zinc-50",
+    accent: "from-emerald-500/60 to-teal-500/60",
   },
   {
     title: "Healthcare Portal",
     category: "Design",
     description: "Patient-facing portal redesign that improved appointment bookings by 40% through intuitive UX.",
-    gradient: "from-zinc-100 via-neutral-50 to-gray-50",
+    accent: "from-sky-500/60 to-blue-500/60",
   },
   {
     title: "AI Analytics Tool",
     category: "AI/ML",
     description: "Predictive analytics platform that uses machine learning to forecast customer churn with 92% accuracy.",
-    gradient: "from-neutral-100 via-stone-50 to-gray-50",
+    accent: "from-amber-500/60 to-orange-500/60",
   },
   {
     title: "Restaurant Brand Identity",
     category: "Design",
     description: "Complete brand overhaul including logo, menu design, website, and social media templates.",
-    gradient: "from-gray-100 via-zinc-50 to-stone-50",
+    accent: "from-rose-500/60 to-pink-500/60",
   },
   {
     title: "SaaS Growth Campaign",
     category: "Marketing",
     description: "Content-led SEO and PPC strategy that tripled organic traffic and reduced CPA by 35% in 6 months.",
-    gradient: "from-stone-100 via-neutral-50 to-gray-50",
+    accent: "from-cyan-500/60 to-teal-500/60",
   },
   {
     title: "Property Management App",
     category: "Web Apps",
     description: "Tenant and landlord portal with automated rent collection, maintenance requests, and reporting.",
-    gradient: "from-zinc-100 via-gray-50 to-stone-50",
+    accent: "from-indigo-500/60 to-violet-500/60",
   },
   {
     title: "Market Intelligence Bot",
     category: "AI/ML",
     description: "Automated competitive analysis tool that monitors pricing, reviews, and social signals in real-time.",
-    gradient: "from-neutral-100 via-gray-50 to-zinc-50",
+    accent: "from-lime-500/60 to-emerald-500/60",
   },
 ];
 
@@ -75,10 +75,10 @@ export function PortfolioGrid() {
             aria-selected={activeCategory === cat}
             onClick={() => setActiveCategory(cat)}
             className={cn(
-              "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+              "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
               activeCategory === cat
-                ? "bg-foreground text-white"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? "bg-foreground text-background"
+                : "border border-border text-muted-foreground hover:text-foreground hover:bg-white/4"
             )}
           >
             {cat}
@@ -86,27 +86,17 @@ export function PortfolioGrid() {
         ))}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="tabpanel">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="tabpanel">
         {filtered.map((project) => (
-          <Card key={project.title} className="overflow-hidden p-0">
-            <div
-              className={`aspect-[16/10] bg-gradient-to-br ${project.gradient} flex items-center justify-center`}
-            >
-              <span className="glass rounded-xl px-6 py-4 text-sm font-semibold text-foreground">
-                {project.title}
-              </span>
-            </div>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-foreground">{project.title}</h3>
-                <span className="text-xs text-muted-foreground rounded-full bg-muted px-2.5 py-0.5">
-                  {project.category}
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {project.description}
-              </p>
-            </div>
+          <Card key={project.title} className="overflow-hidden group">
+            <div className={`h-px w-12 bg-linear-to-r ${project.accent} mb-5`} />
+            <span className="text-xs font-mono text-muted-foreground tracking-wider uppercase">
+              {project.category}
+            </span>
+            <h3 className="mt-2 font-semibold text-foreground">{project.title}</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              {project.description}
+            </p>
           </Card>
         ))}
       </div>

@@ -13,7 +13,6 @@ import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = createMetadata({
   title: "Services",
@@ -130,9 +129,11 @@ export default function ServicesPage() {
   return (
     <>
       <ServiceJsonLd />
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>Our Services</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            Our Services
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Everything you need to grow digitally
           </h1>
@@ -145,7 +146,7 @@ export default function ServicesPage() {
 
       <section className="pb-24">
         <Container>
-          <div className="space-y-8">
+          <div className="space-y-4">
             {services.map((service) => (
               <Card
                 key={service.id}
@@ -154,7 +155,9 @@ export default function ServicesPage() {
               >
                 <div className="md:col-span-2">
                   <div className="flex items-center gap-3 mb-3">
-                    <service.icon size={24} className="text-accent" aria-hidden="true" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border">
+                      <service.icon size={20} className="text-muted-foreground" aria-hidden="true" />
+                    </div>
                     <h2 className="text-xl font-semibold text-foreground">
                       {service.title}
                     </h2>
@@ -171,12 +174,9 @@ export default function ServicesPage() {
                     {service.deliverables.map((d) => (
                       <li
                         key={d}
-                        className="flex items-center gap-2 text-sm text-muted-foreground"
+                        className="flex items-center gap-3 text-sm text-muted-foreground"
                       >
-                        <span
-                          className="h-1.5 w-1.5 rounded-full bg-accent shrink-0"
-                          aria-hidden="true"
-                        />
+                        <span className="h-px w-4 bg-muted-foreground/40 shrink-0" />
                         {d}
                       </li>
                     ))}

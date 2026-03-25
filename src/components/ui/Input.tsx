@@ -22,10 +22,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           aria-describedby={errorId}
           aria-invalid={!!error}
           className={cn(
-            "w-full rounded-xl border bg-white/60 px-4 py-3 text-sm text-foreground backdrop-blur-sm transition-all",
-            "placeholder:text-muted-foreground/60",
-            "focus:outline-none focus:ring-2 focus:ring-foreground/10 focus:border-foreground/20",
-            error ? "border-red-400" : "border-border",
+            "w-full rounded-lg border bg-muted px-4 py-3 text-sm text-foreground transition-all",
+            "placeholder:text-muted-foreground/50",
+            "focus:outline-none focus:ring-2 focus:ring-ring focus:border-white/12",
+            error ? "border-red-500" : "border-border",
             className
           )}
           {...props}
@@ -64,10 +64,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           aria-describedby={errorId}
           aria-invalid={!!error}
           className={cn(
-            "w-full rounded-xl border bg-white/60 px-4 py-3 text-sm text-foreground backdrop-blur-sm transition-all resize-none",
-            "placeholder:text-muted-foreground/60",
-            "focus:outline-none focus:ring-2 focus:ring-foreground/10 focus:border-foreground/20",
-            error ? "border-red-400" : "border-border",
+            "w-full rounded-lg border bg-muted px-4 py-3 text-sm text-foreground transition-all resize-none",
+            "placeholder:text-muted-foreground/50",
+            "focus:outline-none focus:ring-2 focus:ring-ring focus:border-white/12",
+            error ? "border-red-500" : "border-border",
             className
           )}
           {...props}

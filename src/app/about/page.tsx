@@ -5,7 +5,6 @@ import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 
 export const metadata: Metadata = createMetadata({
@@ -68,10 +67,11 @@ const team = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>About Us</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            About Us
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             The people behind the pixels
           </h1>
@@ -82,7 +82,6 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Story */}
       <section className="py-20">
         <Container>
           <div className="mx-auto max-w-3xl space-y-6 text-muted-foreground leading-relaxed">
@@ -111,8 +110,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Values */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 border-t border-border">
         <Container>
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold tracking-tight text-foreground">
@@ -122,15 +120,13 @@ export default function AboutPage() {
               The principles that guide every decision we make.
             </p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value) => (
               <Card key={value.title}>
-                <value.icon
-                  size={24}
-                  className="text-accent mb-3"
-                  aria-hidden="true"
-                />
-                <h3 className="text-lg font-semibold text-foreground">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border mb-4">
+                  <value.icon size={20} className="text-muted-foreground" aria-hidden="true" />
+                </div>
+                <h3 className="text-base font-semibold text-foreground">
                   {value.title}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
@@ -142,7 +138,6 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Team */}
       <section className="py-20">
         <Container>
           <div className="text-center mb-14">
@@ -171,8 +166,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20 border-t border-border">
         <Container className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground">
             Why choose PYON?

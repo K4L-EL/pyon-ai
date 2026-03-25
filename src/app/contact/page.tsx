@@ -3,7 +3,6 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = createMetadata({
@@ -22,9 +21,11 @@ const contactInfo = [
 export default function ContactPage() {
   return (
     <>
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>Contact</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            Contact
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Let&apos;s build something great
           </h1>
@@ -38,26 +39,24 @@ export default function ContactPage() {
       <section className="pb-24">
         <Container>
           <div className="grid gap-12 lg:grid-cols-3">
-            {/* Contact form */}
             <div className="lg:col-span-2">
               <Card>
                 <ContactForm />
               </Card>
             </div>
 
-            {/* Sidebar info */}
             <div className="space-y-6">
               {contactInfo.map((item) => (
                 <div key={item.label} className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
-                    <item.icon size={18} className="text-accent" aria-hidden="true" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border">
+                    <item.icon size={18} className="text-muted-foreground" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">{item.label}</p>
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="text-sm text-muted-foreground hover:text-accent transition-colors"
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {item.value}
                       </a>

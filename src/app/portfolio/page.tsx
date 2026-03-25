@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
-import { Badge } from "@/components/ui/Badge";
 import { PortfolioGrid } from "./portfolio-grid";
 
 export const metadata: Metadata = createMetadata({
@@ -14,9 +13,11 @@ export const metadata: Metadata = createMetadata({
 export default function PortfolioPage() {
   return (
     <>
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>Portfolio</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            Portfolio
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Work that speaks for itself
           </h1>

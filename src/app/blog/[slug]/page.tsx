@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: Props) {
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {post.title}
             </h1>
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm font-mono text-muted-foreground tracking-wider">
               <span className="flex items-center gap-1.5">
                 <User size={14} aria-hidden="true" />
                 {post.author}
@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </header>
 
-          <div className="prose prose-gray max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-accent prose-strong:text-foreground prose-li:text-muted-foreground">
+          <div className="prose prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-foreground prose-a:underline prose-strong:text-foreground prose-li:text-muted-foreground prose-hr:border-border">
             {post.content.split("\n").map((line, i) => {
               const trimmed = line.trim();
               if (!trimmed) return null;

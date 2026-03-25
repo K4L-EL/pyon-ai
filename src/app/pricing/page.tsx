@@ -5,7 +5,6 @@ import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = createMetadata({
   title: "Pricing",
@@ -67,9 +66,11 @@ const tiers = [
 export default function PricingPage() {
   return (
     <>
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>Pricing</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            Pricing
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Simple, transparent pricing
           </h1>
@@ -82,18 +83,18 @@ export default function PricingPage() {
 
       <section className="pb-24">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-3">
             {tiers.map((tier) => (
               <Card
                 key={tier.name}
                 className={
                   tier.featured
-                    ? "relative border-accent/30 shadow-lg ring-1 ring-accent/10"
+                    ? "relative border-white/12 ring-1 ring-white/6"
                     : ""
                 }
               >
                 {tier.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-3 py-0.5 text-xs font-medium text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-foreground px-3 py-0.5 text-xs font-medium text-background">
                     Most Popular
                   </span>
                 )}
@@ -129,7 +130,7 @@ export default function PricingPage() {
                     >
                       <Check
                         size={16}
-                        className="mt-0.5 shrink-0 text-accent"
+                        className="mt-0.5 shrink-0 text-foreground/50"
                         aria-hidden="true"
                       />
                       {feature}
@@ -155,7 +156,7 @@ export default function PricingPage() {
               Need something different?{" "}
               <Link
                 href="/contact"
-                className="font-medium text-accent hover:underline"
+                className="font-medium text-foreground hover:underline"
               >
                 Let&apos;s discuss a custom solution
               </Link>

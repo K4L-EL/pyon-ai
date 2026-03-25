@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { createMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import { blogPosts } from "@/data/blog-posts";
 
 export const metadata: Metadata = createMetadata({
@@ -25,9 +24,11 @@ function formatDate(iso: string) {
 export default function BlogPage() {
   return (
     <>
-      <section className="pt-32 pb-16 bg-gradient-to-b from-muted/40 to-white">
+      <section className="pt-32 pb-16">
         <Container className="text-center">
-          <Badge>Blog</Badge>
+          <span className="font-mono text-sm text-muted-foreground tracking-widest uppercase">
+            Blog
+          </span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Insights &amp; ideas
           </h1>
@@ -40,7 +41,7 @@ export default function BlogPage() {
 
       <section className="pb-24">
         <Container>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {blogPosts.map((post) => (
               <Link
                 key={post.slug}
@@ -48,23 +49,18 @@ export default function BlogPage() {
                 className="group block"
               >
                 <Card className="h-full flex flex-col">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                    <span className="flex items-center gap-1">
-                      <Calendar size={12} aria-hidden="true" />
-                      <time dateTime={post.date}>{formatDate(post.date)}</time>
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock size={12} aria-hidden="true" />
-                      {post.readTime}
-                    </span>
+                  <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground tracking-wider mb-3">
+                    <time dateTime={post.date}>{formatDate(post.date)}</time>
+                    <span className="text-border">|</span>
+                    <span>{post.readTime}</span>
                   </div>
-                  <h2 className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors">
+                  <h2 className="text-base font-semibold text-foreground group-hover:text-foreground/70 transition-colors">
                     {post.title}
                   </h2>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground leading-relaxed">
                     {post.excerpt}
                   </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                     Read article <ArrowRight size={14} />
                   </span>
                 </Card>

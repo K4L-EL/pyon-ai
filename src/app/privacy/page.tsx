@@ -15,11 +15,11 @@ export default function PrivacyPage() {
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-2">
           Privacy Policy
         </h1>
-        <p className="text-sm text-muted-foreground mb-10">
+        <p className="text-sm font-mono text-muted-foreground mb-10">
           Last updated: 1 January 2025
         </p>
 
-        <div className="prose prose-gray max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-a:text-accent">
+        <div className="prose prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-a:text-foreground prose-a:underline prose-strong:text-foreground prose-hr:border-border">
           <h2>1. Introduction</h2>
           <p>
             PYON ai (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to protecting your privacy. This

@@ -21,14 +21,13 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-[85vh] pt-20 bg-muted/20">
+    <div className="min-h-[85vh] pt-20">
       <Container className="py-8">
         <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
-          {/* Sidebar */}
           <aside className="hidden lg:block" aria-label="Dashboard navigation">
-            <nav className="glass-strong rounded-2xl p-4 sticky top-24">
+            <nav className="rounded-xl border border-border bg-muted/50 p-4 sticky top-24">
               <div className="mb-4 px-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs font-mono font-semibold uppercase tracking-widest text-muted-foreground">
                   Dashboard
                 </p>
               </div>
@@ -37,7 +36,7 @@ export default function DashboardLayout({
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/5 hover:text-foreground"
+                      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/4 hover:text-foreground"
                     >
                       <link.icon size={18} aria-hidden="true" />
                       {link.label}
@@ -48,7 +47,7 @@ export default function DashboardLayout({
               <div className="mt-6 border-t border-border pt-4">
                 <Link
                   href="/login"
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-red-50 hover:text-red-600"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-red-500/10 hover:text-red-400"
                 >
                   <LogOut size={18} aria-hidden="true" />
                   Sign Out
@@ -57,7 +56,6 @@ export default function DashboardLayout({
             </nav>
           </aside>
 
-          {/* Main content */}
           <div>{children}</div>
         </div>
       </Container>
