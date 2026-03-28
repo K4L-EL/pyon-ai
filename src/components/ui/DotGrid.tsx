@@ -23,6 +23,7 @@ interface Tracer {
   age: number;
   maxAge: number;
   exiting: boolean;
+  fleeCooldown: number;
 }
 
 const GRID = 40;
@@ -51,21 +52,19 @@ function pickDir(
   mouseCol: number,
   mouseRow: number,
 ): Dir {
-  const opposite: Dir = [-cur[0] as number, -cur[1] as number] as Dir;
-  const choices = DIRS.filter((d) => {
-    if (d[0] === opposite[0] && d[1] === opposite[1]) return false;
+  const inBounds = DIRS.filter((d) => {
     const nc = col + d[0];
     const nr = row + d[1];
     return nc >= 0 && nc < cols && nr >= 0 && nr < rows;
   });
-  if (choices.length === 0) return opposite;
+  if (inBounds.length === 0) return cur;
 
-  // if mouse is nearby, pick the direction that moves furthest from it
+  // if mouse is nearby, allow ANY direction (including backwards) to escape
   const distToMouse = Math.hypot(col - mouseCol, row - mouseRow);
   if (distToMouse < MOUSE_REPEL_RADIUS && mouseCol >= 0) {
-    let best: Dir = choices[0];
+    let best: Dir = inBounds[0];
     let bestDist = -Infinity;
-    for (const d of choices) {
+    for (const d of inBounds) {
       const nd = Math.hypot(col + d[0] - mouseCol, row + d[1] - mouseRow);
       if (nd > bestDist) {
         bestDist = nd;
@@ -74,6 +73,12 @@ function pickDir(
     }
     return best;
   }
+
+  const opposite: Dir = [-cur[0] as number, -cur[1] as number] as Dir;
+  const noReverse = inBounds.filter(
+    (d) => !(d[0] === opposite[0] && d[1] === opposite[1]),
+  );
+  const choices = noReverse.length > 0 ? noReverse : inBounds;
 
   if (Math.random() < TURN_CHANCE) {
     const turns = choices.filter((d) => d[0] !== cur[0] || d[1] !== cur[1]);
@@ -111,6 +116,7 @@ function spawnTracer(cols: number, rows: number): Tracer {
     age: 0,
     maxAge: AGE_MIN + Math.floor(Math.random() * (AGE_MAX - AGE_MIN)),
     exiting: false,
+    fleeCooldown: 0,
   };
 }
 
@@ -246,16 +252,19 @@ export function DotGrid() {
           }
         }
 
-        // mid-segment flee (only when not exiting)
-        if (!t.exiting) {
+        // mid-segment flee (only when not exiting, with cooldown)
+        if (t.fleeCooldown > 0) t.fleeCooldown--;
+        if (!t.exiting && t.fleeCooldown === 0) {
           const headPx = t.col * GRID + t.dir[0] * t.progress * GRID;
           const headPy = t.row * GRID + t.dir[1] * t.progress * GRID;
           const mDist = Math.hypot(headPx - mouseRef.current.col * GRID, headPy - mouseRef.current.row * GRID);
-          if (mDist < GRID * 2.5 && t.progress > 0.3) {
+          if (mDist < GRID * 3 && t.progress > 0.15) {
             t.path.push([t.col, t.row]);
             if (t.path.length > t.maxTrail) t.path.shift();
             t.progress = 0;
             t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+            t.speed = Math.min(t.speed * 1.8, 0.06);
+            t.fleeCooldown = 30;
           }
         }
 
