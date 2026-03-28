@@ -22,6 +22,7 @@ interface Tracer {
   maxTrail: number;
   age: number;
   maxAge: number;
+  exiting: boolean;
 }
 
 const GRID = 40;
@@ -83,6 +84,18 @@ function pickDir(
   return forward ?? choices[Math.floor(Math.random() * choices.length)];
 }
 
+function exitDir(col: number, row: number, cols: number, rows: number): Dir {
+  const distLeft = col;
+  const distRight = cols - 1 - col;
+  const distTop = row;
+  const distBottom = rows - 1 - row;
+  const min = Math.min(distLeft, distRight, distTop, distBottom);
+  if (min === distLeft) return [-1, 0];
+  if (min === distRight) return [1, 0];
+  if (min === distTop) return [0, -1];
+  return [0, 1];
+}
+
 function spawnTracer(cols: number, rows: number): Tracer {
   const col = Math.floor(Math.random() * cols);
   const row = Math.floor(Math.random() * rows);
@@ -97,6 +110,7 @@ function spawnTracer(cols: number, rows: number): Tracer {
     maxTrail: TRAIL_MIN + Math.floor(Math.random() * (TRAIL_MAX - TRAIL_MIN)),
     age: 0,
     maxAge: AGE_MIN + Math.floor(Math.random() * (AGE_MAX - AGE_MIN)),
+    exiting: false,
   };
 }
 
@@ -189,6 +203,20 @@ export function DotGrid() {
       for (let i = tracers.length - 1; i >= 0; i--) {
         const t = tracers[i];
         t.age++;
+
+        // trigger exit: lock direction toward nearest edge and accelerate
+        if (!t.exiting && t.age > t.maxAge) {
+          t.exiting = true;
+          t.dir = exitDir(t.col, t.row, cols, rows);
+          t.path.push([t.col, t.row]);
+          if (t.path.length > t.maxTrail) t.path.shift();
+          t.progress = 0;
+        }
+
+        if (t.exiting) {
+          t.speed = Math.min(t.speed + 0.004, 0.18);
+        }
+
         t.progress += t.speed;
 
         // arrived at next node
@@ -197,37 +225,43 @@ export function DotGrid() {
           t.col += t.dir[0];
           t.row += t.dir[1];
 
-          // clamp if out of bounds
-          t.col = Math.max(0, Math.min(cols - 1, t.col));
-          t.row = Math.max(0, Math.min(rows - 1, t.row));
+          if (t.exiting) {
+            t.path.push([t.col, t.row]);
+            if (t.path.length > t.maxTrail) t.path.shift();
+            // remove once fully off-screen
+            const hx = t.col * GRID;
+            const hy = t.row * GRID;
+            if (hx < -GRID * 2 || hx > w + GRID * 2 || hy < -GRID * 2 || hy > h + GRID * 2) {
+              tracers.splice(i, 1);
+              continue;
+            }
+          } else {
+            t.col = Math.max(0, Math.min(cols - 1, t.col));
+            t.row = Math.max(0, Math.min(rows - 1, t.row));
 
-          t.path.push([t.col, t.row]);
-          if (t.path.length > t.maxTrail) t.path.shift();
+            t.path.push([t.col, t.row]);
+            if (t.path.length > t.maxTrail) t.path.shift();
 
-          t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+            t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+          }
         }
 
-        // mid-segment flee: if mouse is very close, force a reroute at the current node
-        const headPx = t.col * GRID + t.dir[0] * t.progress * GRID;
-        const headPy = t.row * GRID + t.dir[1] * t.progress * GRID;
-        const mDist = Math.hypot(headPx - mouseRef.current.col * GRID, headPy - mouseRef.current.row * GRID);
-        if (mDist < GRID * 2.5 && t.progress > 0.3) {
-          t.path.push([t.col, t.row]);
-          if (t.path.length > t.maxTrail) t.path.shift();
-          t.progress = 0;
-          t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+        // mid-segment flee (only when not exiting)
+        if (!t.exiting) {
+          const headPx = t.col * GRID + t.dir[0] * t.progress * GRID;
+          const headPy = t.row * GRID + t.dir[1] * t.progress * GRID;
+          const mDist = Math.hypot(headPx - mouseRef.current.col * GRID, headPy - mouseRef.current.row * GRID);
+          if (mDist < GRID * 2.5 && t.progress > 0.3) {
+            t.path.push([t.col, t.row]);
+            if (t.path.length > t.maxTrail) t.path.shift();
+            t.progress = 0;
+            t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+          }
         }
 
-        // remove dead tracers
-        if (t.age > t.maxAge) {
-          tracers.splice(i, 1);
-          continue;
-        }
-
-        // lifecycle opacity: fade in first 60 frames, fade out last 120
+        // fade in only (no fade out — they speed off instead)
         let life = 1;
         if (t.age < 60) life = t.age / 60;
-        else if (t.age > t.maxAge - 120) life = (t.maxAge - t.age) / 120;
 
         // build pixel path: all past nodes + interpolated head
         const pts: [number, number][] = t.path.map(([pc, pr]) => [pc * GRID, pr * GRID]);
