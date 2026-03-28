@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/CookieConsent";
+import { DotGrid } from "@/components/ui/DotGrid";
 import "./globals.css";
 
 const inter = Inter({
@@ -90,6 +91,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
+        <DotGrid />
         <OrganizationJsonLd />
         <a
           href="#main-content"
@@ -97,11 +99,13 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Navbar />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <div className="relative z-10 flex min-h-full flex-1 flex-col">
+          <Navbar />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
         <CookieConsent />
       </body>
     </html>
