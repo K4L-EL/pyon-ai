@@ -32,7 +32,7 @@ export function Hero() {
 
           <motion.h1
             variants={fadeUp}
-            className="mt-8 text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl"
+            className="mt-8 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl"
           >
             We build software
             <br />

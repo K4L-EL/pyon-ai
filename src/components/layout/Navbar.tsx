@@ -46,7 +46,7 @@ export function Navbar() {
         className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <Link href="/" className="text-lg font-bold tracking-tight text-foreground">
+        <Link href="/" className="text-2xl font-bold tracking-tight text-foreground">
           PYON<span className="text-muted-foreground font-normal">.ai</span>
         </Link>
 
