@@ -9,14 +9,14 @@ import { fadeUp } from "@/lib/motion";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[110vh] flex items-center overflow-hidden">
       <div className="absolute inset-0 dot-grid" aria-hidden="true" />
       <div
         className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.12),transparent)]"
         aria-hidden="true"
       />
 
-      <Container className="relative z-10 py-32 lg:py-40">
+      <Container className="relative z-10 py-40 lg:py-52">
         <motion.div
           initial="hidden"
           animate="visible"
