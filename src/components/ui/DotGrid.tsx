@@ -39,8 +39,17 @@ const AGE_MAX = 1400;
 const TURN_CHANCE = 0.4;
 
 const NEON: [number, number, number] = [0, 190, 255];
+const MOUSE_REPEL_RADIUS = 5; // grid cells
 
-function pickDir(cur: Dir, cols: number, rows: number, col: number, row: number): Dir {
+function pickDir(
+  cur: Dir,
+  cols: number,
+  rows: number,
+  col: number,
+  row: number,
+  mouseCol: number,
+  mouseRow: number,
+): Dir {
   const opposite: Dir = [-cur[0] as number, -cur[1] as number] as Dir;
   const choices = DIRS.filter((d) => {
     if (d[0] === opposite[0] && d[1] === opposite[1]) return false;
@@ -49,6 +58,21 @@ function pickDir(cur: Dir, cols: number, rows: number, col: number, row: number)
     return nc >= 0 && nc < cols && nr >= 0 && nr < rows;
   });
   if (choices.length === 0) return opposite;
+
+  // if mouse is nearby, pick the direction that moves furthest from it
+  const distToMouse = Math.hypot(col - mouseCol, row - mouseRow);
+  if (distToMouse < MOUSE_REPEL_RADIUS && mouseCol >= 0) {
+    let best: Dir = choices[0];
+    let bestDist = -Infinity;
+    for (const d of choices) {
+      const nd = Math.hypot(col + d[0] - mouseCol, row + d[1] - mouseRow);
+      if (nd > bestDist) {
+        bestDist = nd;
+        best = d;
+      }
+    }
+    return best;
+  }
 
   if (Math.random() < TURN_CHANCE) {
     const turns = choices.filter((d) => d[0] !== cur[0] || d[1] !== cur[1]);
@@ -79,6 +103,7 @@ function spawnTracer(cols: number, rows: number): Tracer {
 export function DotGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
+  const mouseRef = useRef({ col: -999, row: -999 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -92,6 +117,19 @@ export function DotGrid() {
     let rows = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const tracers: Tracer[] = [];
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseRef.current.col = e.clientX / GRID;
+      mouseRef.current.row = e.clientY / GRID;
+    };
+
+    const onMouseLeave = () => {
+      mouseRef.current.col = -999;
+      mouseRef.current.row = -999;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseleave", onMouseLeave);
 
     const resize = () => {
       w = window.innerWidth;
@@ -166,7 +204,18 @@ export function DotGrid() {
           t.path.push([t.col, t.row]);
           if (t.path.length > t.maxTrail) t.path.shift();
 
-          t.dir = pickDir(t.dir, cols, rows, t.col, t.row);
+          t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
+        }
+
+        // mid-segment flee: if mouse is very close, force a reroute at the current node
+        const headPx = t.col * GRID + t.dir[0] * t.progress * GRID;
+        const headPy = t.row * GRID + t.dir[1] * t.progress * GRID;
+        const mDist = Math.hypot(headPx - mouseRef.current.col * GRID, headPy - mouseRef.current.row * GRID);
+        if (mDist < GRID * 2.5 && t.progress > 0.3) {
+          t.path.push([t.col, t.row]);
+          if (t.path.length > t.maxTrail) t.path.shift();
+          t.progress = 0;
+          t.dir = pickDir(t.dir, cols, rows, t.col, t.row, mouseRef.current.col, mouseRef.current.row);
         }
 
         // remove dead tracers
@@ -256,6 +305,8 @@ export function DotGrid() {
     return () => {
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseleave", onMouseLeave);
     };
   }, []);
 
